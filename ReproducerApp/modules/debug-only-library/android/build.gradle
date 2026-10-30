@@ -1,0 +1,13 @@
+apply plugin: "com.android.library"
+
+android {
+  namespace "com.debugonlylibrary"
+  compileSdk 36
+  defaultConfig {
+    minSdk 24
+  }
+}
+
+dependencies {
+  implementation "com.facebook.react:react-android"
+}
