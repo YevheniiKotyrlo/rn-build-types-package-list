@@ -1,16 +1,14 @@
 # rn-build-types-package-list
 
-![Build](https://github.com/YevheniiKotyrlo/rn-build-types-package-list/workflows/Pre%20Merge%20Checks/badge.svg)
+A library whose `react-native.config.js` sets `platforms.android.buildTypes: ['debug']` is kept out of the release variant's classpath, but the Gradle plugin's `PackageList.java` still names its package, so the release variant fails to compile.
 
-This is your new React Native Reproducer project.
+`ReproducerApp/modules/debug-only-library` is that library, with a `ReactPackage` (`com.debugonlylibrary.DebugOnlyPackage`); the app depends on it with `file:`.
 
-# Reproducer TODO list
+```sh
+./reproduce.sh
+```
 
-- [x] 1. Create a new reproducer project.
-- [ ] 2. Git clone your repository locally.
-- [ ] 3. Edit the project to reproduce the failure you're seeing.
-- [ ] 4. Push your changes, so that Github Actions can run the CI.
-- [ ] 5. Make sure the repository is public and share the link with the issue you reported.
+It runs `yarn install` in `ReproducerApp`, then `./gradlew :app:compileDebugJavaWithJavac :app:compileReleaseJavaWithJavac --continue` in `ReproducerApp/android`, and prints the lines of `PackageList.java` that name the library. It exits 1 while the release variant fails on `package com.debugonlylibrary does not exist` and the debug one compiles, 0 once both compile, and 2 when a step fails another way.
 
 # How to use this Reproducer
 
